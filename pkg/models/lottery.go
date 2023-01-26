@@ -4,12 +4,10 @@ package models
 //A lottery is the main class of this application, we can create only one lottery at a time.
 
 type Lottery struct {
-	//the lottery has a max day
 	MaxDay int
-	//the lottery has a current day
 	CurrentDay int
-	//the lottery has a max number of NFT as ticket
 	Tickets []NFT
+	TicketPrice float64
 }
 
 //create interface for the lottery
