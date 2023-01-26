@@ -8,6 +8,7 @@ type Lottery struct {
 	CurrentDay int
 	Tickets []NFT
 	TicketPrice float64
+	Owner Wallet
 }
 
 //create interface for the lottery

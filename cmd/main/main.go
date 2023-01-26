@@ -10,9 +10,9 @@ import (
 
 
 func main() {
-	wallet := models.Wallet{Address: "master", Balance: 100}
+	ownerWallet := models.Wallet{Address: "master", Balance: 100}
 	
-	nfts := utils.GenerateNFTs([]int{5, 5, 2}, wallet)
+	nfts := utils.GenerateNFTs([]int{5, 5, 2}, ownerWallet)
 	//wallets := utils.GenerateWallets(len(nfts))
 
 	lottery := models.Lottery{
@@ -20,6 +20,7 @@ func main() {
 		CurrentDay: 1, 
 		Tickets: nfts, 
 		TicketPrice: 2.5,
+		Owner: ownerWallet,
 	}
 
 	fmt.Println(lottery)
