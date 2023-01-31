@@ -1,17 +1,21 @@
 package models
 
-import "time"
+import (
+	"math/rand"
+	"time"
+)
 
 type Blockchain struct {
 	Wallets []*Wallet
 	Nfts    []*NFT
 }
 
-func (blockchain *Blockchain) Run() []*Wallet {
+func (blockchain *Blockchain) Run(chans BlockchainChanels) {
+	//sleep 3 seconds
 	for {
-		//sleep 1 second
-		time.Sleep(1 * time.Second)
-		//print "blockchain running"
-		println("blockchain running")
+		time.Sleep(2 * time.Second)
+		chans.TestChan.Publish(&TransactionEvent{
+			Amount: 10 + rand.Float64()*(20-10),
+		})
 	}
 }

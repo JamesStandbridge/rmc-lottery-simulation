@@ -1,5 +1,11 @@
 package models
 
+import (
+	"fmt"
+
+	"github.com/ispringteam/eventbus"
+)
+
 type Wallet struct {
 	Address string
 	Balance float64
@@ -11,6 +17,16 @@ type WalletInterface interface {
 	Pay(receiver *Wallet, amount float64)
 	//the lottery can be played
 	Buy(amount float64, nft *NFT)
+}
+
+func (wallet *Wallet) Run(chans BlockchainChanels) {
+	chans.TestChan.Subscribe("event.transaction", func(e eventbus.Event) {
+		ev := e.(*TransactionEvent)
+		//print wallet address and the detail of the event
+		fmt.Printf("Wallet %v received event %v", wallet.Address, ev)
+		//break line
+		fmt.Println()
+	})
 }
 
 func (payer *Wallet) Pay(receiver *Wallet, amount float64) {
