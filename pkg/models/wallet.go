@@ -20,8 +20,8 @@ type WalletInterface interface {
 }
 
 func (wallet *Wallet) Run(chans BlockchainChanels) {
-	chans.TestChan.Subscribe("event.transaction", func(e eventbus.Event) {
-		ev := e.(*TransactionEvent)
+	chans.LotteryBus.Subscribe("lottery.event.new", func(e eventbus.Event) {
+		ev := e.(*LotteryOpenEvent)
 		//print wallet address and the detail of the event
 		fmt.Printf("Wallet %v received event %v", wallet.Address, ev)
 		//break line

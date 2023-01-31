@@ -11,6 +11,7 @@ import (
 	socketio "github.com/googollee/go-socket.io"
 
 	"github.com/ispringteam/eventbus"
+	"github.com/jamesstandbridge/rmc-lottery-simulation/pkg/handlers"
 	"github.com/jamesstandbridge/rmc-lottery-simulation/pkg/models"
 	"github.com/jamesstandbridge/rmc-lottery-simulation/pkg/utils"
 )
@@ -24,7 +25,7 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	chans := models.BlockchainChanels{
-		TestChan: eventbus.New(),
+		LotteryBus: eventbus.New(),
 	}
 
 	//http server
@@ -38,11 +39,11 @@ func main() {
 
 		s.Join("blockchain")
 
-		go func() {
-			chans.TestChan.Subscribe("event.transaction", func(e eventbus.Event) {
-				server.BroadcastToRoom("/", "blockchain", "blockchain", e.EventID())
-			})
-		}()
+		// go func() {
+		// 	chans.TestChan.Subscribe("event.transaction", func(e eventbus.Event) {
+		// 		server.BroadcastToRoom("/", "blockchain", "blockchain", e.EventID())
+		// 	})
+		// }()
 
 		return nil
 	})
@@ -70,6 +71,10 @@ func main() {
 
 	router.GET("/socket.io/*any", gin.WrapH(server))
 	router.POST("/socket.io/*any", gin.WrapH(server))
+
+	// api endpoint post /lottery which create a new lottery
+	router.POST("/lottery", handlers.CreateLottery)
+
 	router.StaticFS("/public", http.Dir("../asset"))
 
 	// end http server

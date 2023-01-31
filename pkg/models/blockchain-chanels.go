@@ -6,5 +6,5 @@ import (
 )
 
 type BlockchainChanels struct {
-	TestChan eventbus.Bus
+	LotteryBus eventbus.Bus
 }
